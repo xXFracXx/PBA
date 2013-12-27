@@ -58,6 +58,13 @@ private:
 	void TrainerLose();
 	void End();
 
+	void State0();
+	void State1();
+	void State2();
+	void State3();
+	void State4();
+	void State5();
+
 	/********************************/
 private:
 	D3DGraphics gfx;

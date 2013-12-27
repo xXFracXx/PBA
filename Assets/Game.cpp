@@ -744,727 +744,745 @@ void Game::End()
         endIndex = 0;
 }
 
+void Game::State0()
+{
+	if(startIndex == 0)
+	{
+		if(startIndex2 == 0)
+		{
+			gfx.DrawSprite(0, 0, &Start1);
+			S1++;
+			if(S1 >= 210)
+				startIndex2 = 1;
+		}
+		else if(startIndex2 == 1)
+		{
+			gfx.DrawSprite(0, 0, &Start2);
+			S2++;
+			if(S2 >= 210)
+				startIndex2 = 2;
+		}
+		else if(startIndex2 == 2)
+		{
+			gfx.DrawSprite(0, 0, &Start3);
+			S3++;
+			if(S3 >= 210)
+				startIndex = 1;
+		}
+	}
+	else if(startIndex == 1)
+	{
+		ofstream SaveFile ("Resources\\SaveFile.dat", ios::_Nocreate);
+		if(!SaveFile) //Checks if SaveFile already exits or not.
+		{
+			if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 259)&&(MousePosY < 342)))
+			{
+				DrawMenu(0, 0, 2, 2);
+				if(mouse.LeftIsPressed())
+				{
+					if(SaveFile.is_open())
+						SaveFile.close();
+					Checker = 0;
+					GameState = 3;
+				}
+			}
+			else if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 459)&&(MousePosY < 543)))
+			{
+				DrawMenu(0, 0, 2, 3);
+				if(mouse.LeftIsPressed())
+				{
+					if(SaveFile.is_open())
+						SaveFile.close();
+					exit(0);
+				}
+			}
+			else
+				DrawMenu(0, 0, 2, 1);
+		}
+		else
+		{
+			if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 259)&&(MousePosY < 342)))
+			{
+				DrawMenu(0, 0, 1, 2);
+				if(mouse.LeftIsPressed())
+				{
+					if(SaveFile.is_open())
+						SaveFile.close();
+					Checker = 0;
+					GameState = 3;
+				}
+			}
+			else if(((MousePosX > 591)&&(MousePosX < 732))&&((MousePosY > 376)&&(MousePosY < 426)))
+			{
+				DrawMenu(0, 0, 1, 5);
+				if(mouse.LeftIsPressed())
+				{
+					if(SaveFile.is_open())
+						SaveFile.close();
+					DelSaveFile();
+					Checker = 0;
+				}
+			}
+			else if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 358)&&(MousePosY < 445)))
+			{
+				DrawMenu(0, 0, 1, 3);
+				if(mouse.LeftIsPressed())
+				{
+					if(SaveFile.is_open())
+						SaveFile.close();
+					LoadSaveFile();
+					Checker = 1;
+					GameState = 1;
+				}
+			}
+			else if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 459)&&(MousePosY < 543)))
+			{
+				DrawMenu(0, 0, 1, 4);
+				if(mouse.LeftIsPressed())
+				{
+					if(SaveFile.is_open())
+						SaveFile.close();
+					exit(0);
+				}
+			}
+			else
+				DrawMenu(0, 0, 1, 1);
+		}
+		gfx.DrawString("Release Candidate v1.3", 8, 570, &fixedSys, D3DCOLOR_XRGB(48, 48, 48));
+	}
+}
+
+void Game::State1()
+{
+	if(MapChecker == 0)
+			gfx.DrawSprite(0, 0, &Map); //Outputs Map
+	else if(MapChecker == 1)
+		gfx.DrawSprite(0, 0, &Map2); 
+
+	if(Checker == 0)
+	{
+		Checker2 = 0;
+		Initialize(Trainer1PosX, Trainer1PosY);
+		Initialize(Trainer2PosX, Trainer2PosY);
+		Initialize(Trainer3PosX, Trainer3PosY);
+		Initialize(Trainer4PosX, Trainer4PosY);
+		Checker = 1;
+	}
+
+	srand (time(NULL));
+	Checker4 = rand() % 119 + 1;
+	Checker5 = rand() % 119 + 1;
+	Checker6 = rand() % 119 + 1;
+	Checker7 = rand() % 119 + 1;
+	if(Checker4%4 == 0)
+	{
+		Trainer1Type = rand() % 4;
+		Checker4 = 0;
+	}
+	if(Checker5%4 == 0)
+	{
+		Trainer2Type = rand() % 4;
+		Checker4 = 0;
+	}
+	if(Checker6%4 == 0)
+	{
+		Trainer3Type = rand() % 4;
+		Checker4 = 0;
+	}
+	if(Checker7%4 == 0)
+	{
+		Trainer4Type = rand() % 4;
+		Checker4 = 0;
+	}
+
+	DrawEntity(Trainer1PosX, Trainer1PosY, Trainer1, Trainer1Type); //
+	DrawEntity(Trainer2PosX, Trainer2PosY, Trainer2, Trainer2Type); // 
+	DrawEntity(Trainer3PosX, Trainer3PosY, Trainer3, Trainer3Type); // Outputs Player and 4 Trainers
+	DrawEntity(Trainer4PosX, Trainer4PosY, Trainer4, Trainer4Type); // 
+	DrawEntity(PlayerPosX, PlayerPosY, Red, RedType);               //
+
+	if(PlayerPosY < 92) {    
+		PlayerPosY = 92;     
+	}
+	if(PlayerPosY > 492) {
+		PlayerPosY = 492;
+	}
+	if(PlayerPosX < 26) {
+		PlayerPosX = 26;
+	}
+	if(PlayerPosX > 742) {
+		PlayerPosX = 742;
+	}
+	
+	if(kbd.KeyIsPressed(VK_UP)) {
+			PlayerPosY -= 2;
+			RedType = 1;
+	}
+	if(kbd.KeyIsPressed(VK_DOWN)) {
+			PlayerPosY += 2;
+			RedType = 0;
+	}
+	if(kbd.KeyIsPressed(VK_LEFT)) {
+			PlayerPosX -= 2;
+			RedType = 2;
+	}
+	if(kbd.KeyIsPressed(VK_RIGHT)) {
+			PlayerPosX += 2;
+			RedType = 3;
+	}
+	if(kbd.KeyIsPressed(VK_ESCAPE)) {
+		SaveToSaveFile();
+		GameState = 2;
+	}
+
+	if((PlayerPosX >= Trainer1PosX - 36)&&(PlayerPosX <= Trainer1PosX + 36))
+		if((PlayerPosY >= Trainer1PosY - 36)&&(PlayerPosY <= Trainer1PosY + 36))
+			if(Trainer1Status == 0)
+			{
+				Wins = 0;
+				Losses = 0;
+				TrainerID = 1;
+				GameState = 4;
+			}
+			else
+				gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+
+	if((PlayerPosX >= Trainer2PosX - 36)&&(PlayerPosX <= Trainer2PosX + 36))
+		if((PlayerPosY >= Trainer2PosY - 36)&&(PlayerPosY <= Trainer2PosY + 36))
+			if(Trainer2Status == 0)
+			{
+				Wins = 0;
+				Losses = 0;
+				TrainerID = 2;
+				GameState = 4;
+			}
+			else
+				gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+
+	if((PlayerPosX >= Trainer3PosX - 36)&&(PlayerPosX <= Trainer3PosX + 36))
+		if((PlayerPosY >= Trainer3PosY - 36)&&(PlayerPosY <= Trainer3PosY + 36))
+			if(Trainer3Status == 0)
+			{
+				Wins = 0;
+				Losses = 0;
+				TrainerID = 3;
+				GameState = 4;
+			}
+			else
+				gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+
+	if((PlayerPosX >= Trainer4PosX - 36)&&(PlayerPosX <= Trainer4PosX + 36))
+		if((PlayerPosY >= Trainer4PosY - 36)&&(PlayerPosY <= Trainer4PosY + 36))
+			if(Trainer4Status == 0)
+			{
+				Wins = 0;
+				Losses = 0;
+				TrainerID = 4;
+				GameState = 4;
+			}
+			else
+				gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+
+	if((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1))
+		GameState = 5;
+}
+
+void Game::State2()
+{
+	if(((MousePosX > 56)&&(MousePosX < 369))&&((MousePosY > 356)&&(MousePosY < 443)))
+	{
+		DrawMenu(0, 0, 3, 2);
+		if(mouse.LeftIsPressed())
+		{
+			exit(0);
+		}
+	}
+	else if(((MousePosX > 431)&&(MousePosX < 743))&&((MousePosY > 356)&&(MousePosY < 443)))
+	{
+		DrawMenu(0, 0, 3, 3);
+		if(mouse.LeftIsPressed())
+		{
+			GameState = 1;
+		}
+	}
+	else
+		DrawMenu(0, 0, 3, 1);
+}
+
+void Game::State3()
+{
+	if(introIndex == 0)
+	{
+		gfx.DrawSprite(0, 0, &Intro1);
+		DrawNext(657, 485);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 1;
+		}
+	}
+	else if(introIndex == 1)
+	{
+		gfx.DrawSprite(0, 0, &Intro2);
+		DrawNext(717, 484);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 2;
+		}
+	}
+	else if(introIndex == 2)
+	{
+		gfx.DrawSprite(0, 0, &Intro3);
+		DrawNext(114, 540);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 3;
+		}
+	}
+	else if(introIndex == 3)
+	{
+		gfx.DrawSprite(0, 0, &Intro4);
+		//DrawNext(, );
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 4;
+		}
+	}
+	else if(introIndex == 4)
+	{
+		gfx.DrawSprite(0, 0, &Intro5);
+		DrawNext(177, 539);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 5;
+		}
+	}
+	else if(introIndex == 5)
+	{
+		gfx.DrawSprite(0, 0, &Intro6);
+		//DrawNext(, );
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 6;
+		}
+	}
+	else if(introIndex == 6)
+	{
+		gfx.DrawSprite(0, 0, &Intro7);
+		//DrawNext(, );
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 7;
+		}
+	}
+	else if(introIndex == 7)
+	{
+		gfx.DrawSprite(0, 0, &Intro8);
+		//DrawNext(, );
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 8;
+		}
+	}
+	else if(introIndex == 8)
+	{
+		gfx.DrawSprite(0, 0, &Intro9);
+		//DrawNext(, );
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 9;
+		}
+	}
+	else if(introIndex == 9)
+	{
+		gfx.DrawSprite(0, 0, &Intro10);
+		//DrawNext(, );
+		Sleep(41);
+		introIndex = 10;
+	}
+	else if(introIndex == 10)
+	{
+		gfx.DrawSprite(0, 0, &Intro11);
+		DrawNext(360, 484);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 11;
+		}
+	}
+	else if(introIndex == 11)
+	{
+		gfx.DrawSprite(0, 0, &Intro12);
+		DrawNext(734, 539);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			introIndex = 12;
+		}
+	}
+	else if(introIndex == 12)
+	{
+		gfx.DrawSprite(0, 0, &Intro13);
+		DrawNext(240, 539);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			Checker = 0;
+			GameState = 1;
+		}
+	}
+}
+
+void Game::State4()
+{
+	if(BattleIndex == 0)
+	{
+		srand(time(NULL));
+		level = 50;
+		species=rand()%34+1;
+		x.setup(species);
+		species=rand()%34+1;
+		y.setup(species);
+
+		itoa(x.level, Olevel1, 10);
+		itoa(y.level, Olevel2, 10);
+
+		inx = x.curhp;
+		iny = y.curhp;
+
+		itoa(inx, ixhp, 10);
+		itoa(iny, iyhp, 10);
+
+		SelectPokemon(x.no, 2);
+		SelectPokemon(y.no, 1);
+
+		xNameLen = strlen(x.name);
+		yNameLen = strlen(y.name);
+
+		BattleIndex = 1;
+
+	}
+	if((Wins < 2) && (Losses < 2) && (BattleIndex9 == 0))
+	{
+		if(((x.curhp > 0))&&((y.curhp > 0)))
+		{
+			if(BattleIndex == 1)
+			{
+				gfx.DrawSprite(0, 0, &Battle);
+
+				gfx.DrawString( "Lv:", 660, 295, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				gfx.DrawString( Olevel1, 708, 295, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+
+				gfx.DrawString( "Lv:", 253, 102, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				gfx.DrawString( Olevel2, 303, 102, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+
+				nx = x.curhp;
+				if(nx >= (inx/2))
+				{
+					xhpct[0] = 88;
+					xhpct[1] = 208;
+					xhpct[2] = 128;
+					xhpcb[0] = 112;
+					xhpcb[1] = 248;
+					xhpcb[2] = 168;
+				}
+				else if((nx < (inx/2))&&(nx >= (inx/5)))
+				{
+					xhpct[0] = 200;
+					xhpct[1] = 168;
+					xhpct[2] = 8;
+					xhpcb[0] = 248;
+					xhpcb[1] = 224;
+					xhpcb[2] = 56;
+				}
+				else
+				{
+					xhpct[0] = 168;
+					xhpct[1] = 64;
+					xhpct[2] = 73;
+					xhpcb[0] = 248;
+					xhpcb[1] = 88;
+					xhpcb[2] = 56;
+				}
+				nx/=inx;
+				nx*=160;
+				for(int y = 0; y < 3; y++)
+					gfx.DrawLine(580, 336 + y, 580 + nx, 336 + y, xhpct[0], xhpct[1], xhpct[2]);
+				for(int y = 0; y < 7; y++)
+					gfx.DrawLine(580, 339 + y, 580 + nx, 339 + y, xhpcb[0], xhpcb[1], xhpcb[2]);
+
+				ny = y.curhp;
+				if(ny >= (iny/2))
+				{
+					yhpct[0] = 88;
+					yhpct[1] = 208;
+					yhpct[2] = 128;
+					yhpcb[0] = 112;
+					yhpcb[1] = 248;
+					yhpcb[2] = 168;
+				}
+				else if((ny < (iny/2))&&(ny >= (iny/5)))
+				{
+					yhpct[0] = 200;
+					yhpct[1] = 168;
+					yhpct[2] = 8;
+					yhpcb[0] = 248;
+					yhpcb[1] = 224;
+					yhpcb[2] = 56;
+				}
+				else
+				{
+					yhpct[0] = 168;
+					yhpct[1] = 64;
+					yhpct[2] = 73;
+					yhpcb[0] = 248;
+					yhpcb[1] = 88;
+					yhpcb[2] = 56;
+				}
+				ny/=iny;
+				ny*=160;
+				for(int y = 0; y < 3; y++)
+					gfx.DrawLine(173, 143 + y, 173 + ny, 143 + y, yhpct[0], yhpct[1], yhpct[2]);
+				for(int y = 0; y < 7; y++)
+					gfx.DrawLine(173, 146 + y, 173 + ny, 146 + y, yhpcb[0], yhpcb[1], yhpcb[2]);
+			
+				if((x.curhp >= 100)&&(inx >=100))
+				{
+					itoa(x.curhp, xhp, 10);
+					gfx.DrawString( xhp, 627, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				}
+				else if((x.curhp < 100)&&(inx >=100))
+				{
+					itoa(x.curhp, xhp, 10);
+					gfx.DrawString( xhp, 643, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				}
+				else if((x.curhp < 100)&&(inx < 100))
+				{
+					itoa(x.curhp, xhp, 10);
+					gfx.DrawString( xhp, 659, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( "/", 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( ixhp, 707, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				}
+				else if((x.curhp < 10)&&(inx >=100))
+				{
+					itoa(x.curhp, xhp, 10);
+					gfx.DrawString( xhp, 659, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				}
+				else if((x.curhp < 10)&&(inx < 100))
+				{
+					itoa(x.curhp, xhp, 10);
+					gfx.DrawString( xhp, 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+					gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				}
+				/*///
+				if((y.curhp >= 100)&&(iny >=100))
+				{
+					itoa(y.curhp, yhp, 10);
+					gfx.DrawString( yhp, 627, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+				}
+				else if((y.curhp < 100)&&(iny >=100))
+				{
+					itoa(y.curhp, yhp, 10);
+					gfx.DrawString( yhp, 723, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+				}
+				else if((y.curhp < 100)&&(iny < 100))
+				{
+					itoa(y.curhp, yhp, 10);
+					gfx.DrawString( yhp, 659, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( "/", 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( iyhp, 707, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+				}
+				else if((y.curhp < 10)&&(iny >=100))
+				{
+					itoa(y.curhp, yhp, 10);
+					gfx.DrawString( yhp, 659, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+				}
+				else if((y.curhp < 10)&&(iny < 100))
+				{
+					itoa(y.curhp, yhp, 10);
+					gfx.DrawString( yhp, 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+					gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
+				}
+				///*/
+				gfx.DrawString( x.name, 466, 295, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+				gfx.DrawString( y.name, 59, 102, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
+
+				gfx.DrawString( "What will", 39, 441, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+				gfx.DrawString( x.name, 39, 477, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+				gfx.DrawString( "do next?", 39 + (xNameLen*16) + 18, 477, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
+
+				gfx.DrawSprite(374, 33, &Pokemon1);
+				gfx.DrawSprite(0, 190, &Pokemon2);
+
+				if(((MousePosX > 443)&&(MousePosX < 562))&&((MousePosY > 439)&&(MousePosY < 488))&&(BattleIndex2==0))
+				{
+					gfx.DrawSprite(427, 447, &Select);
+					if(mouse.LeftIsPressed())
+					{
+						mouse.ClearState();
+						BattleIndex3 = 1;
+					}
+				}
+
+				if(BattleIndex3 == 1)
+				{
+					Fight();
+				}
+			}
+		}
+		else
+		{
+			if((y.curhp <= 0)/*&&(x.curhp > 0)*/)
+			{
+				Win();
+				if(BattleIndex7w == 1)
+				{
+					resetBattleInits();
+					Wins++;
+					GameState = 4;
+				}
+				if((Wins > 2) || (Losses > 2))
+					BattleIndex = 1;
+			}
+			if((x.curhp <= 0)/*&&(y.curhp > 0)*/)
+			{
+				Lose();
+				if(BattleIndex7l == 1)
+				{
+					resetBattleInits();
+					Losses++;
+					GameState = 4;
+				}
+				if((Wins > 2) || (Losses > 2))
+					BattleIndex9 = 1;
+			}
+		}
+	}
+	else
+	{
+		if(Wins > Losses)
+		{
+			TrainerWin();
+			if(BattleIndex8w == 1)
+			{
+				TrainerWin();
+				if(TrainerID == 1)
+					Trainer1Status = 1;
+				if(TrainerID == 2)
+					Trainer2Status = 1;
+				if(TrainerID == 3)
+					Trainer3Status = 1;
+				if(TrainerID == 4)
+					Trainer4Status = 1;
+				PlayerPosX = 384;
+				PlayerPosY = 309;
+				BattleIndex9 = 0;
+				GameState = 1;
+			}
+		}
+		else
+		{
+			TrainerLose();
+			if(BattleIndex8l == 1)
+			{
+				if(TrainerID == 1)
+					Trainer1Status = 0;
+				if(TrainerID == 2)
+					Trainer2Status = 0;
+				if(TrainerID == 3)
+					Trainer3Status = 0;
+				if(TrainerID == 4)
+					Trainer4Status = 0;
+				PlayerPosX = 384;
+				PlayerPosY = 309;
+				BattleIndex9 = 0;
+				GameState = 1;
+			}
+		}
+	}
+}
+
+void Game::State5()
+{
+	if(endIndex == 0)
+	{
+		gfx.DrawSprite(0, 0, &End1);
+		DrawNextRed(776 , 562);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			endIndex = 1;
+		}
+	}
+	else if(endIndex == 1)
+	{
+		gfx.DrawSprite(0, 0, &End2a);
+		DrawNextRed(776 , 562);
+		if((MousePosX > 262)&&(MousePosX < 543)&&(MousePosY > 268)&&(MousePosY < 285))
+			gfx.DrawSprite(0, 0, &End2b);
+		if((MousePosX > 226)&&(MousePosX < 579)&&(MousePosY > 297)&&(MousePosY < 314))
+			gfx.DrawSprite(0, 0, &End2c);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			endIndex = 2;
+		}
+	}
+	else if(endIndex == 2)
+	{
+		gfx.DrawSprite(0, 0, &End3);
+		DrawNextRed(776 , 562);
+		if(kbd.KeyIsReleased(VK_RETURN))
+		{
+			kbd.ClearState();
+			End();
+			GameState = 0;
+		}
+	}
+}
+
 void Game::ComposeFrame()
 {
 	MousePosX = mouse.GetMouseX();
 	MousePosY = mouse.GetMouseY();
 
 	if(GameState == 0) //Main Menu
-	{
-		if(startIndex == 0)
-		{
-			if(startIndex2 == 0)
-			{
-				gfx.DrawSprite(0, 0, &Start1);
-				S1++;
-				if(S1 >= 210)
-					startIndex2 = 1;
-			}
-			else if(startIndex2 == 1)
-			{
-				gfx.DrawSprite(0, 0, &Start2);
-				S2++;
-				if(S2 >= 210)
-					startIndex2 = 2;
-			}
-			else if(startIndex2 == 2)
-			{
-				gfx.DrawSprite(0, 0, &Start3);
-				S3++;
-				if(S3 >= 210)
-					startIndex = 1;
-			}
-		}
-		else if(startIndex == 1)
-		{
-			ofstream SaveFile ("Resources\\SaveFile.dat", ios::_Nocreate);
-			if(!SaveFile) //Checks if SaveFile already exits or not.
-			{
-				if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 259)&&(MousePosY < 342)))
-				{
-					DrawMenu(0, 0, 2, 2);
-					if(mouse.LeftIsPressed())
-					{
-						if(SaveFile.is_open())
-							SaveFile.close();
-						Checker = 0;
-						GameState = 3;
-					}
-				}
-				else if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 459)&&(MousePosY < 543)))
-				{
-					DrawMenu(0, 0, 2, 3);
-					if(mouse.LeftIsPressed())
-					{
-						if(SaveFile.is_open())
-							SaveFile.close();
-						exit(0);
-					}
-				}
-				else
-					DrawMenu(0, 0, 2, 1);
-			}
-			else
-			{
-				if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 259)&&(MousePosY < 342)))
-				{
-					DrawMenu(0, 0, 1, 2);
-					if(mouse.LeftIsPressed())
-					{
-						if(SaveFile.is_open())
-							SaveFile.close();
-						Checker = 0;
-						GameState = 3;
-					}
-				}
-				else if(((MousePosX > 591)&&(MousePosX < 732))&&((MousePosY > 376)&&(MousePosY < 426)))
-				{
-					DrawMenu(0, 0, 1, 5);
-					if(mouse.LeftIsPressed())
-					{
-						if(SaveFile.is_open())
-							SaveFile.close();
-						DelSaveFile();
-						Checker = 0;
-					}
-				}
-				else if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 358)&&(MousePosY < 445)))
-				{
-					DrawMenu(0, 0, 1, 3);
-					if(mouse.LeftIsPressed())
-					{
-						if(SaveFile.is_open())
-							SaveFile.close();
-						LoadSaveFile();
-						Checker = 1;
-						GameState = 1;
-					}
-				}
-				else if(((MousePosX > 58)&&(MousePosX < 742))&&((MousePosY > 459)&&(MousePosY < 543)))
-				{
-					DrawMenu(0, 0, 1, 4);
-					if(mouse.LeftIsPressed())
-					{
-						if(SaveFile.is_open())
-							SaveFile.close();
-						exit(0);
-					}
-				}
-				else
-					DrawMenu(0, 0, 1, 1);
-			}
-			gfx.DrawString("Release Candidate v1.3", 8, 570, &fixedSys, D3DCOLOR_XRGB(48, 48, 48));
-		}
-	}	
+		State0();
 
 	if(GameState == 1) //Game
-	{
-		if(MapChecker == 0)
-			gfx.DrawSprite(0, 0, &Map); //Outputs Map
-		else if(MapChecker == 1)
-			gfx.DrawSprite(0, 0, &Map2); 
-
-		if(Checker == 0)
-		{
-			Checker2 = 0;
-			Initialize(Trainer1PosX, Trainer1PosY);
-			Initialize(Trainer2PosX, Trainer2PosY);
-			Initialize(Trainer3PosX, Trainer3PosY);
-			Initialize(Trainer4PosX, Trainer4PosY);
-			Checker = 1;
-		}
-
-		srand (time(NULL));
-		Checker4 = rand() % 119 + 1;
-		Checker5 = rand() % 119 + 1;
-		Checker6 = rand() % 119 + 1;
-		Checker7 = rand() % 119 + 1;
-		if(Checker4%4 == 0)
-		{
-			Trainer1Type = rand() % 4;
-			Checker4 = 0;
-		}
-		if(Checker5%4 == 0)
-		{
-			Trainer2Type = rand() % 4;
-			Checker4 = 0;
-		}
-		if(Checker6%4 == 0)
-		{
-			Trainer3Type = rand() % 4;
-			Checker4 = 0;
-		}
-		if(Checker7%4 == 0)
-		{
-			Trainer4Type = rand() % 4;
-			Checker4 = 0;
-		}
-
-		DrawEntity(Trainer1PosX, Trainer1PosY, Trainer1, Trainer1Type); //
-		DrawEntity(Trainer2PosX, Trainer2PosY, Trainer2, Trainer2Type); // 
-		DrawEntity(Trainer3PosX, Trainer3PosY, Trainer3, Trainer3Type); // Outputs Player and 4 Trainers
-		DrawEntity(Trainer4PosX, Trainer4PosY, Trainer4, Trainer4Type); // 
-		DrawEntity(PlayerPosX, PlayerPosY, Red, RedType);               //
-
-		if(PlayerPosY < 92) {    
-			PlayerPosY = 92;     
-		}
-		if(PlayerPosY > 492) {
-			PlayerPosY = 492;
-		}
-		if(PlayerPosX < 26) {
-			PlayerPosX = 26;
-		}
-		if(PlayerPosX > 742) {
-			PlayerPosX = 742;
-		}
-	
-		if(kbd.KeyIsPressed(VK_UP)) {
-				PlayerPosY -= 2;
-				RedType = 1;
-		}
-		if(kbd.KeyIsPressed(VK_DOWN)) {
-				PlayerPosY += 2;
-				RedType = 0;
-		}
-		if(kbd.KeyIsPressed(VK_LEFT)) {
-				PlayerPosX -= 2;
-				RedType = 2;
-		}
-		if(kbd.KeyIsPressed(VK_RIGHT)) {
-				PlayerPosX += 2;
-				RedType = 3;
-		}
-		if(kbd.KeyIsPressed(VK_ESCAPE)) {
-			SaveToSaveFile();
-			GameState = 2;
-		}
-
-		if((PlayerPosX >= Trainer1PosX - 36)&&(PlayerPosX <= Trainer1PosX + 36))
-			if((PlayerPosY >= Trainer1PosY - 36)&&(PlayerPosY <= Trainer1PosY + 36))
-				if(Trainer1Status == 0)
-				{
-					Wins = 0;
-					Losses = 0;
-					TrainerID = 1;
-					GameState = 4;
-				}
-				else
-					gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-
-		if((PlayerPosX >= Trainer2PosX - 36)&&(PlayerPosX <= Trainer2PosX + 36))
-			if((PlayerPosY >= Trainer2PosY - 36)&&(PlayerPosY <= Trainer2PosY + 36))
-				if(Trainer2Status == 0)
-				{
-					Wins = 0;
-					Losses = 0;
-					TrainerID = 2;
-					GameState = 4;
-				}
-				else
-					gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-
-		if((PlayerPosX >= Trainer3PosX - 36)&&(PlayerPosX <= Trainer3PosX + 36))
-			if((PlayerPosY >= Trainer3PosY - 36)&&(PlayerPosY <= Trainer3PosY + 36))
-				if(Trainer3Status == 0)
-				{
-					Wins = 0;
-					Losses = 0;
-					TrainerID = 3;
-					GameState = 4;
-				}
-				else
-					gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-
-		if((PlayerPosX >= Trainer4PosX - 36)&&(PlayerPosX <= Trainer4PosX + 36))
-			if((PlayerPosY >= Trainer4PosY - 36)&&(PlayerPosY <= Trainer4PosY + 36))
-				if(Trainer4Status == 0)
-				{
-					Wins = 0;
-					Losses = 0;
-					TrainerID = 4;
-					GameState = 4;
-				}
-				else
-					gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-
-		if((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1))
-			GameState = 5;
-	}
+		State1();
 
 	if(GameState == 2) //Exit Menu
-	{
-		if(((MousePosX > 56)&&(MousePosX < 369))&&((MousePosY > 356)&&(MousePosY < 443)))
-		{
-			DrawMenu(0, 0, 3, 2);
-			if(mouse.LeftIsPressed())
-			{
-				exit(0);
-			}
-		}
-		else if(((MousePosX > 431)&&(MousePosX < 743))&&((MousePosY > 356)&&(MousePosY < 443)))
-		{
-			DrawMenu(0, 0, 3, 3);
-			if(mouse.LeftIsPressed())
-			{
-				GameState = 1;
-			}
-		}
-		else
-			DrawMenu(0, 0, 3, 1);
-	}
+		State2();
 
 	if(GameState == 3) //Intro
-	{
-		if(introIndex == 0)
-		{
-			gfx.DrawSprite(0, 0, &Intro1);
-			DrawNext(657, 485);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 1;
-			}
-		}
-		else if(introIndex == 1)
-		{
-			gfx.DrawSprite(0, 0, &Intro2);
-			DrawNext(717, 484);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 2;
-			}
-		}
-		else if(introIndex == 2)
-		{
-			gfx.DrawSprite(0, 0, &Intro3);
-			DrawNext(114, 540);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 3;
-			}
-		}
-		else if(introIndex == 3)
-		{
-			gfx.DrawSprite(0, 0, &Intro4);
-			//DrawNext(, );
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 4;
-			}
-		}
-		else if(introIndex == 4)
-		{
-			gfx.DrawSprite(0, 0, &Intro5);
-			DrawNext(177, 539);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 5;
-			}
-		}
-		else if(introIndex == 5)
-		{
-			gfx.DrawSprite(0, 0, &Intro6);
-			//DrawNext(, );
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 6;
-			}
-		}
-		else if(introIndex == 6)
-		{
-			gfx.DrawSprite(0, 0, &Intro7);
-			//DrawNext(, );
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 7;
-			}
-		}
-		else if(introIndex == 7)
-		{
-			gfx.DrawSprite(0, 0, &Intro8);
-			//DrawNext(, );
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 8;
-			}
-		}
-		else if(introIndex == 8)
-		{
-			gfx.DrawSprite(0, 0, &Intro9);
-			//DrawNext(, );
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 9;
-			}
-		}
-		else if(introIndex == 9)
-		{
-			gfx.DrawSprite(0, 0, &Intro10);
-			//DrawNext(, );
-			Sleep(41);
-			introIndex = 10;
-		}
-		else if(introIndex == 10)
-		{
-			gfx.DrawSprite(0, 0, &Intro11);
-			DrawNext(360, 484);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 11;
-			}
-		}
-		else if(introIndex == 11)
-		{
-			gfx.DrawSprite(0, 0, &Intro12);
-			DrawNext(734, 539);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				introIndex = 12;
-			}
-		}
-		else if(introIndex == 12)
-		{
-			gfx.DrawSprite(0, 0, &Intro13);
-			DrawNext(240, 539);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				Checker = 0;
-				GameState = 1;
-			}
-		}
-	}
+		State3();
 
-	if(GameState == 4)
-	{
-		if(BattleIndex == 0)
-		{
-			srand(time(NULL));
-			level = 50;
-			species=rand()%34+1;
-			x.setup(species);
-			species=rand()%34+1;
-			y.setup(species);
+	if(GameState == 4) //Battle
+		State4();
 
-			itoa(x.level, Olevel1, 10);
-			itoa(y.level, Olevel2, 10);
-
-			inx = x.curhp;
-			iny = y.curhp;
-
-			itoa(inx, ixhp, 10);
-			itoa(iny, iyhp, 10);
-
-			SelectPokemon(x.no, 2);
-			SelectPokemon(y.no, 1);
-
-			xNameLen = strlen(x.name);
-			yNameLen = strlen(y.name);
-
-			BattleIndex = 1;
-
-		}
-		if((Wins < 2) && (Losses < 2) && (BattleIndex9 == 0))
-		{
-			if(((x.curhp > 0))&&((y.curhp > 0)))
-			{
-				if(BattleIndex == 1)
-				{
-					gfx.DrawSprite(0, 0, &Battle);
-
-					gfx.DrawString( "Lv:", 660, 295, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					gfx.DrawString( Olevel1, 708, 295, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-
-					gfx.DrawString( "Lv:", 253, 102, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					gfx.DrawString( Olevel2, 303, 102, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-
-					nx = x.curhp;
-					if(nx >= (inx/2))
-					{
-						xhpct[0] = 88;
-						xhpct[1] = 208;
-						xhpct[2] = 128;
-						xhpcb[0] = 112;
-						xhpcb[1] = 248;
-						xhpcb[2] = 168;
-					}
-					else if((nx < (inx/2))&&(nx >= (inx/5)))
-					{
-						xhpct[0] = 200;
-						xhpct[1] = 168;
-						xhpct[2] = 8;
-						xhpcb[0] = 248;
-						xhpcb[1] = 224;
-						xhpcb[2] = 56;
-					}
-					else
-					{
-						xhpct[0] = 168;
-						xhpct[1] = 64;
-						xhpct[2] = 73;
-						xhpcb[0] = 248;
-						xhpcb[1] = 88;
-						xhpcb[2] = 56;
-					}
-					nx/=inx;
-					nx*=160;
-					for(int y = 0; y < 3; y++)
-						gfx.DrawLine(580, 336 + y, 580 + nx, 336 + y, xhpct[0], xhpct[1], xhpct[2]);
-					for(int y = 0; y < 7; y++)
-						gfx.DrawLine(580, 339 + y, 580 + nx, 339 + y, xhpcb[0], xhpcb[1], xhpcb[2]);
-
-					ny = y.curhp;
-					if(ny >= (iny/2))
-					{
-						yhpct[0] = 88;
-						yhpct[1] = 208;
-						yhpct[2] = 128;
-						yhpcb[0] = 112;
-						yhpcb[1] = 248;
-						yhpcb[2] = 168;
-					}
-					else if((ny < (iny/2))&&(ny >= (iny/5)))
-					{
-						yhpct[0] = 200;
-						yhpct[1] = 168;
-						yhpct[2] = 8;
-						yhpcb[0] = 248;
-						yhpcb[1] = 224;
-						yhpcb[2] = 56;
-					}
-					else
-					{
-						yhpct[0] = 168;
-						yhpct[1] = 64;
-						yhpct[2] = 73;
-						yhpcb[0] = 248;
-						yhpcb[1] = 88;
-						yhpcb[2] = 56;
-					}
-					ny/=iny;
-					ny*=160;
-					for(int y = 0; y < 3; y++)
-						gfx.DrawLine(173, 143 + y, 173 + ny, 143 + y, yhpct[0], yhpct[1], yhpct[2]);
-					for(int y = 0; y < 7; y++)
-						gfx.DrawLine(173, 146 + y, 173 + ny, 146 + y, yhpcb[0], yhpcb[1], yhpcb[2]);
-			
-					if((x.curhp >= 100)&&(inx >=100))
-					{
-						itoa(x.curhp, xhp, 10);
-						gfx.DrawString( xhp, 627, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					}
-					else if((x.curhp < 100)&&(inx >=100))
-					{
-						itoa(x.curhp, xhp, 10);
-						gfx.DrawString( xhp, 643, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					}
-					else if((x.curhp < 100)&&(inx < 100))
-					{
-						itoa(x.curhp, xhp, 10);
-						gfx.DrawString( xhp, 659, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( "/", 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( ixhp, 707, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					}
-					else if((x.curhp < 10)&&(inx >=100))
-					{
-						itoa(x.curhp, xhp, 10);
-						gfx.DrawString( xhp, 659, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					}
-					else if((x.curhp < 10)&&(inx < 100))
-					{
-						itoa(x.curhp, xhp, 10);
-						gfx.DrawString( xhp, 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( "/", 675, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-						gfx.DrawString( ixhp, 691, 354, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					}
-					/*///
-					if((y.curhp >= 100)&&(iny >=100))
-					{
-						itoa(y.curhp, yhp, 10);
-						gfx.DrawString( yhp, 627, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-					}
-					else if((y.curhp < 100)&&(iny >=100))
-					{
-						itoa(y.curhp, yhp, 10);
-						gfx.DrawString( yhp, 723, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-					}
-					else if((y.curhp < 100)&&(iny < 100))
-					{
-						itoa(y.curhp, yhp, 10);
-						gfx.DrawString( yhp, 659, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( "/", 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( iyhp, 707, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-					}
-					else if((y.curhp < 10)&&(iny >=100))
-					{
-						itoa(y.curhp, yhp, 10);
-						gfx.DrawString( yhp, 659, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-					}
-					else if((y.curhp < 10)&&(iny < 100))
-					{
-						itoa(y.curhp, yhp, 10);
-						gfx.DrawString( yhp, 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( "/", 675, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-						gfx.DrawString( iyhp, 691, 254, &fixedSys, D3DCOLOR_XRGB(72, 72, 72));
-					}
-					///*/
-					gfx.DrawString( x.name, 466, 295, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-					gfx.DrawString( y.name, 59, 102, &fixedSys, D3DCOLOR_XRGB(64, 64, 64));
-
-					gfx.DrawString( "What will", 39, 441, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-					gfx.DrawString( x.name, 39, 477, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-					gfx.DrawString( "do next?", 39 + (xNameLen*16) + 18, 477, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-
-					gfx.DrawSprite(374, 33, &Pokemon1);
-					gfx.DrawSprite(0, 190, &Pokemon2);
-
-					if(((MousePosX > 443)&&(MousePosX < 562))&&((MousePosY > 439)&&(MousePosY < 488))&&(BattleIndex2==0))
-					{
-						gfx.DrawSprite(427, 447, &Select);
-						if(mouse.LeftIsPressed())
-						{
-							mouse.ClearState();
-							BattleIndex3 = 1;
-						}
-					}
-
-					if(BattleIndex3 == 1)
-					{
-						Fight();
-					}
-				}
-			}
-			else
-			{
-				if((y.curhp <= 0)/*&&(x.curhp > 0)*/)
-				{
-					Win();
-					if(BattleIndex7w == 1)
-					{
-						resetBattleInits();
-						Wins++;
-						GameState = 4;
-					}
-					if((Wins > 2) || (Losses > 2))
-						BattleIndex = 1;
-				}
-				if((x.curhp <= 0)/*&&(y.curhp > 0)*/)
-				{
-					Lose();
-					if(BattleIndex7l == 1)
-					{
-						resetBattleInits();
-						Losses++;
-						GameState = 4;
-					}
-					if((Wins > 2) || (Losses > 2))
-						BattleIndex9 = 1;
-				}
-			}
-		}
-		else
-		{
-			if(Wins > Losses)
-			{
-				TrainerWin();
-				if(BattleIndex8w == 1)
-				{
-					TrainerWin();
-					if(TrainerID == 1)
-						Trainer1Status = 1;
-					if(TrainerID == 2)
-						Trainer2Status = 1;
-					if(TrainerID == 3)
-						Trainer3Status = 1;
-					if(TrainerID == 4)
-						Trainer4Status = 1;
-					PlayerPosX = 384;
-					PlayerPosY = 309;
-					BattleIndex9 = 0;
-					GameState = 1;
-				}
-			}
-			else
-			{
-				TrainerLose();
-				if(BattleIndex8l == 1)
-				{
-					if(TrainerID == 1)
-						Trainer1Status = 0;
-					if(TrainerID == 2)
-						Trainer2Status = 0;
-					if(TrainerID == 3)
-						Trainer3Status = 0;
-					if(TrainerID == 4)
-						Trainer4Status = 0;
-					PlayerPosX = 384;
-					PlayerPosY = 309;
-					BattleIndex9 = 0;
-					GameState = 1;
-				}
-			}
-		}
-	}
-
-	if(GameState == 5)
-	{
-		if(endIndex == 0)
-		{
-			gfx.DrawSprite(0, 0, &End1);
-			DrawNextRed(776 , 562);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				endIndex = 1;
-			}
-		}
-		else if(endIndex == 1)
-		{
-			gfx.DrawSprite(0, 0, &End2a);
-			DrawNextRed(776 , 562);
-			if((MousePosX > 262)&&(MousePosX < 543)&&(MousePosY > 268)&&(MousePosY < 285))
-				gfx.DrawSprite(0, 0, &End2b);
-			if((MousePosX > 226)&&(MousePosX < 579)&&(MousePosY > 297)&&(MousePosY < 314))
-				gfx.DrawSprite(0, 0, &End2c);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				endIndex = 2;
-			}
-		}
-		else if(endIndex == 2)
-		{
-			gfx.DrawSprite(0, 0, &End3);
-			DrawNextRed(776 , 562);
-			if(kbd.KeyIsReleased(VK_RETURN))
-			{
-				kbd.ClearState();
-				End();
-				GameState = 0;
-			}
-		}
-	}
+	if(GameState == 5) //End
+		State5();
 }
