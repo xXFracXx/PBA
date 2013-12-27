@@ -685,7 +685,7 @@ void Game::Lose()
 	gfx.DrawString( y.name, 105, 255, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
 	gfx.DrawString( "has defeated", 39, 291, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
 	gfx.DrawString( x.name, 249, 291, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
-	DrawNext(249 + (yNameLen*16) + 18 , 299);
+	DrawNext(249 + (xNameLen*16) + 18 , 299);
 	if(kbd.KeyIsReleased(VK_RETURN))
 	{
 		kbd.ClearState();
