@@ -1,4 +1,24 @@
-// #pragma once
+/*
+  Name:				 Pokémon Battle Arena
+  Copyright:         WildRide, INC.
+					 Phoenix Enterprises
+					 Zugzwang
+					 Sushmeister INC.
+  Authors:           Vedant Nayar, Shashank Pincha, Susheel Nath & Sudharsan SUrya
+  Date Started:      04/07/13 17:46
+  Version:           Release Candidate 1.3
+  Credits:			 Satoshi Tajiri, rest of PKMN Red/Blue Staff
+					 nescity.neshq.com: Nintendo Logo
+					 patorjk.com: WildRide Studios logo  (interesting site. check it out)
+					 Surya
+					 Showbhik
+					 Harish P.
+					 Harish B.
+					 Roney
+					 Shubham
+					 Varun
+*/
+
 #include <iostream>
 #include <sstream>
 #include <windows.h>

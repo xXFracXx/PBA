@@ -1,5 +1,5 @@
 /*
-  Name: Pokémon Battle Arena
+  Name:				 Pokémon Battle Arena
   Copyright:         WildRide, INC.
 					 Phoenix Enterprises
 					 Zugzwang
