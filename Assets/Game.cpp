@@ -29,7 +29,7 @@ extern _battle battle;
 
 Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 :	gfx( hWnd ), audio( hWnd ), kbd( kServer ), mouse( mServer ),
-	GameState(0),
+	GameState(0), MapChecker(0),
 	Checker(0), Checker2(0), Checker3(0),
 	Checker4(0), Checker5(0), Checker6(0), Checker7(0),
 	C0(0), C1(0), C2(0), C3(0), C4(0), C5(0), C6(0), C7(0),
@@ -57,6 +57,7 @@ Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 
 	LoadSprite( &Blank, "Resources\\Blank.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 	LoadSprite( &Map, "Resources\\Map.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Map2, "Resources\\Map2.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 	LoadSprite( &Next, "Resources\\Next.bmp", 34, 20, D3DCOLOR_XRGB(255,255,255));
 	LoadSprite( &NextRed, "Resources\\NextRed.bmp", 20, 34, D3DCOLOR_XRGB(255,255,255));
 	LoadSprite( &Select, "Resources\\Select.bmp", 20, 34, D3DCOLOR_XRGB(0,0,0));
@@ -738,9 +739,9 @@ void Game::TrainerLose()
 
 void Game::End()
 {
-	startIndex = 0;
-	startIndex2 = 0;
-	endIndex = 0;
+        startIndex = 0;
+        startIndex2 = 0;
+        endIndex = 0;
 }
 
 void Game::ComposeFrame()
@@ -854,11 +855,14 @@ void Game::ComposeFrame()
 			}
 			gfx.DrawString("Release Candidate v1.3", 8, 570, &fixedSys, D3DCOLOR_XRGB(48, 48, 48));
 		}
-	}
+	}	
 
 	if(GameState == 1) //Game
 	{
-		gfx.DrawSprite(0, 0, &Map); //Outputs Map
+		if(MapChecker == 0)
+			gfx.DrawSprite(0, 0, &Map); //Outputs Map
+		else if(MapChecker == 1)
+			gfx.DrawSprite(0, 0, &Map2); 
 
 		if(Checker == 0)
 		{

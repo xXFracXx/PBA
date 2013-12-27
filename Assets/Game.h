@@ -71,6 +71,7 @@ private:
 
 	Sprite Blank;
 	Sprite Map;
+	Sprite Map2;
 	Sprite Next;
 	Sprite NextRed;
 	Sprite Select;
@@ -154,6 +155,7 @@ private:
 	Sprite End3;
 
 	int GameState;
+	int MapChecker;
 
 	int PlayerPosX;
 	int PlayerPosY;
