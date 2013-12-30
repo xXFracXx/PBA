@@ -1,5 +1,5 @@
 /*
-  Name:				 Pokémon Battle Arena
+  Name:				 Pokï¿½mon Battle Arena
   Copyright:         WildRide, INC.
 					 Phoenix Enterprises
 					 Zugzwang
@@ -668,6 +668,8 @@ void _pokemon::createmoveset()
 			break;
 	}
 
+	//THIS NEEDS CHECKING! AND NOW THE CATEGORY "OHKO" has been coded in.
+
 	while((a==0)||(Move[a].category != Regular)||(((Move[a].type != type1)&&(Move[a].type != type2))&&(Move[a].type != NORMAL)) || (a == 9000))
 	{
 		a = rand() % 165 + 1;
@@ -819,7 +821,14 @@ int _battle::damagecalc(_pokemon a, _pokemon b, _move m)                    //Ca
 	modifier = stab * type * critical * randomnum;								// Formula for modifier
 
 	damage = ((((2*level)+10)/250)*(attack/defense)*(base)+2)*modifier;	// Formula (It's harder than it looks)
-
+	
+	if (m.category==OHKO)
+	{
+		if (a.speed>b.speed)
+		return 10000;
+		else return 0;
+	}
+	
 	return (int)damage;		// Returns net damage
 }
 
@@ -2142,13 +2151,13 @@ void initMoveSet()
 	Move[10].setup(10, "Scratch", NORMAL, 40, 100, Regular, 0, 35);
 	Move[11].setup(11, "Vice Grip", NORMAL, 55, 100, Regular, 0, 30);
 	Move[12].setup(12, "Guillotine", NORMAL, 0, 30, OHKO, 0, 5);                    /*Cannot hit an opponent of higher speed. Always KO's an opponent or substitutee*/
-	Move[13].setup(13, "Razor Wind", NORMAL, 80, 75, Charge, 1, 10);                /*Razor Wind does nothing on the turn it is selected, other than saying "<Pokémon> made a whirlwind!". On the following turn, Razor Wind inflicts damage.*/
+	Move[13].setup(13, "Razor Wind", NORMAL, 80, 75, Charge, 1, 10);                /*Razor Wind does nothing on the turn it is selected, other than saying "<Pokï¿½mon> made a whirlwind!". On the following turn, Razor Wind inflicts damage.*/
 	Move[14].setup(14, "Swords Dance", NORMAL, 0, 0, Stat, 0, 30);                  /*Increases attack by two stages*/
 		Move[14].setup2(Attack, 1);
 	Move[15].setup(15, "Cut", NORMAL, 50, 95, Regular, 0, 30);
 	Move[16].setup(16, "Gust", NORMAL, 40, 100, Regular, 0, 35);
 	Move[17].setup(17, "Wing Attack", FLYING, 35, 100, Regular, 0, 35);
-	Move[18].setup(18, "Whirlwind", NORMAL, 0, 100, Flee, 0, 20);                   /*Whirlwind can be used to automatically end wild Pokémon battles and has normal priority. Even if a wild Pokémon uses the Move, the battle will end. However, it has no effect in a Trainer battle.*/
+	Move[18].setup(18, "Whirlwind", NORMAL, 0, 100, Flee, 0, 20);                   /*Whirlwind can be used to automatically end wild Pokï¿½mon battles and has normal priority. Even if a wild Pokï¿½mon uses the Move, the battle will end. However, it has no effect in a Trainer battle.*/
 	Move[19].setup(19, "Fly", FLYING, 70, 95, Charge, 0, 15);
 	Move[20].setup(20, "Bind", NORMAL, 15, 75, MultipleTurns, 0, 20);               /*Bind does damage for 2-5 turns. There is a 37.5% chance that it will attack for 2 turns, a 37.5% chance that it will attack for 3 turns, a 12.5% chance that it will attack for 4 turns, and a 12.5% chance that it will attack for 5 turns.*/
 		Move[20].setup2(2,5);
@@ -2195,14 +2204,14 @@ void initMoveSet()
 		Move[44].setup2(Flinch, 10);
 	Move[45].setup(45, "Growl", NORMAL, 0, 100, Stat, 0, 40);                       /*Decreases the opponent's Attack by one stage.*/
 		Move[45].setup2(Attack, 2);
-	Move[46].setup(46, "Roar", NORMAL, 0, 100, Flee, 0, 20);                        /*Roar can be used to automatically end wild Pokémon battles. No effect in a Trainer battle.*/
+	Move[46].setup(46, "Roar", NORMAL, 0, 100, Flee, 0, 20);                        /*Roar can be used to automatically end wild Pokï¿½mon battles. No effect in a Trainer battle.*/
 	Move[47].setup(47, "Sing", NORMAL, 0, 55, Status, 0, 15);                       /*Puts the target to sleep.*/
 		Move[47].setup2(Asleep);
 	Move[48].setup(48, "Supersonic", NORMAL, 0, 55, Status, 0, 20);                 /*Supersonic causes the target to become confused. Supersonic will fail if the target has a substitute, or is already confused.*/
 		Move[48].setup2(Confusion);
 	Move[49].setup(49, "Sonic Boom", NORMAL, 0, 90, Specific, 0, 20);                /*Does 20 damage, no matter what*/
 		Move[49].setup2(20);
-	Move[50].setup(50, "Disable", NORMAL, 0, 80, Special, 0, 30);                   /*Disable randomly selects one Move that is in the target's current Move set and whose current PP is greater than 0, and gives it a randomly chosen disable duration length of 0-6, which is reduced by 1 each time the Pokémon attempts to execute an attack.*/
+	Move[50].setup(50, "Disable", NORMAL, 0, 80, Special, 0, 30);                   /*Disable randomly selects one Move that is in the target's current Move set and whose current PP is greater than 0, and gives it a randomly chosen disable duration length of 0-6, which is reduced by 1 each time the Pokï¿½mon attempts to execute an attack.*/
 	//SPECIAL SETUP
 	Move[51].setup(51, "Acid", POISON, 40, 100, RegularStat, 0, 25);                /*Acid does damage and has a 10% chance of lowering the target's Defense by one stage.*/
 		Move[51].setup2(Defense, 10, 2);
@@ -2234,14 +2243,14 @@ void initMoveSet()
 		Move[67].setup2(Flinch, 30);
 	Move[68].setup(68, "Counter", FIGHTING, 0, 100, Special, 0, 20);                /*If the last amount of damage done before the use of Counter is greater than 0 and was dealt by a Normal-type or Fighting-type attack, Counter will do twice as much damage to the opponent.*/
 	//SPECIAL SETUP
-	Move[69].setup(69, "Seismic Toss", FIGHTING, 0, 100, Special, 0, 20);           /*Seismic Toss inflicts damage equal to the user's level, for example, if the using Pokémon is Level 25 the opposing Pokémon will take 25 HP of direct damage. The damage is not altered by weakness or resistance, except when a Pokémon is immune. No STAB.*/
+	Move[69].setup(69, "Seismic Toss", FIGHTING, 0, 100, Special, 0, 20);           /*Seismic Toss inflicts damage equal to the user's level, for example, if the using Pokï¿½mon is Level 25 the opposing Pokï¿½mon will take 25 HP of direct damage. The damage is not altered by weakness or resistance, except when a Pokï¿½mon is immune. No STAB.*/
 	//SPECIAL SETUP
 	Move[70].setup(70, "Strength", NORMAL, 80, 100, Regular, 0, 15);
 	Move[71].setup(71, "Absorb", GRASS, 20, 100, Drain, 0, 20);                     /*Absorb does damage, and up to 50% of the damage done to the target is restored to the user, rounded up. If Absorb breaks a substitute, no HP will be restored to the user. Does not exceed max HP of user.*/
 		Move[71].setup2(50);
 	Move[72].setup(72, "Mega Drain", GRASS, 40, 100, Drain, 0, 10);                 /*Mega Drain inflicts damage, and 50% of the damage dealt to the target is restored to the user. If Mega Drain breaks a substitute, no HP will be restored to the user. Does not exceed max hp.*/
 		Move[72].setup2(50);
-	Move[73].setup(73, "Leech Seed", GRASS, 0, 90, DrainMultiple, 0, 10);           /*At the end of each turn that the target is under the effect of Leech Seed, 1/16 of the target's HP will be drained, and the same amount of HP will be restored to the target's opponent (even if it was not the Pokémon that originally used the attack).*/
+	Move[73].setup(73, "Leech Seed", GRASS, 0, 90, DrainMultiple, 0, 10);           /*At the end of each turn that the target is under the effect of Leech Seed, 1/16 of the target's HP will be drained, and the same amount of HP will be restored to the target's opponent (even if it was not the Pokï¿½mon that originally used the attack).*/
 	Move[74].setup(74, "Growth", NORMAL, 0, 0, Stat, 0, 40);                        /*Growth increases the user's Special attack stat by one stage.*/
 	Move[75].setup(75, "Razor Leaf", GRASS, 55, 95, Regular, 1, 25);
 	Move[76].setup(76, "Solar Beam", GRASS, 120, 100, Charge, 0, 10);               /*SolarBeam does nothing on the turn it is selected, other than state that the user has taken in sunlight. On the following turn, SolarBeam will inflict damage, PP will be deducted from it, and it will count as the last Move used.*/
@@ -2260,7 +2269,7 @@ void initMoveSet()
 	Move[89].setup(89, "Earthquake", GROUND, 100, 100, Regular, 0, 10);
 	Move[90].setup(90, "Fissure", GROUND, 0, 0, OHKO, 0, 5);                        /*Defeats opponent, or breaks sub.*/
 	Move[91].setup(91, "Dig", GROUND, 100, 100, Charge, 0, 10);                     /*On the turn that Dig is selected, the user will dig underground, where the only attacks it cannot avoid are Bide, Swift, and Transform. On the following turn, Dig will do damage.*/
-	Move[92].setup(92, "Toxic", POISON, 0, 85, Special, 0, 10);                     /*Toxic badly poisons the target, and has an accuracy of 85. Each time the target takes recurrent damage, the damage will equal N max (1, int (0.0625 × Max HP))*/
+	Move[92].setup(92, "Toxic", POISON, 0, 85, Special, 0, 10);                     /*Toxic badly poisons the target, and has an accuracy of 85. Each time the target takes recurrent damage, the damage will equal N max (1, int (0.0625 ï¿½ Max HP))*/
 	Move[93].setup(93, "Confusion", PSYCHIC, 50, 100, RegularStatus, 0, 25);        /*Confusion does damage and has a 10% chance of confusing the target.*/
 	Move[94].setup(94, "Psychic", PSYCHIC, 90, 100, RegularStat, 0, 10);            /*Psychic does damage and has a 30% chance of lowering the target's Special by one stage.*/
 	Move[95].setup(95, "Hypnosis", PSYCHIC, 0, 60, Status, 0, 20);                  /*Hypnosis puts the target to sleep.*/
@@ -2268,7 +2277,7 @@ void initMoveSet()
 	Move[97].setup(97, "Agility", PSYCHIC, 0, 0, Stat, 0, 30);                      /*Agility increases the user's Speed by two stages.*/
 	Move[98].setup(98, "Quick Attack", NORMAL, 40, 100, Special, 0, 30);            /*Quick Attack inflicts damage, and is an increased priority Move.*/
 	Move[99].setup(99, "Rage", NORMAL, 20, 100, Special, 0, 20);                    /*It will not be possible for the user to do anything other than let the user continue to use Rage, and it will not stop using Rage. Every time user is damaged, Attack stat will increase by 1 stage. Rage will use 1 PP, but not use any PP thereafter.*/
-	Move[100].setup(100, "Teleport", PSYCHIC, 0, 0, Flee, 0, 20);                   /*Teleport can be used to flee wild Pokémon battles. In Trainer battles, Teleport always fails. Teleport will also fail if the user is under the effect of a partially trapping Move such as Wrap or Whirlpool.*/
+	Move[100].setup(100, "Teleport", PSYCHIC, 0, 0, Flee, 0, 20);                   /*Teleport can be used to flee wild Pokï¿½mon battles. In Trainer battles, Teleport always fails. Teleport will also fail if the user is under the effect of a partially trapping Move such as Wrap or Whirlpool.*/
 	Move[101].setup(101, "Night Shade", GHOST, 0, 100, Special, 0, 15);             /*Night Shade inflicts damage equal to the user's level. Although Night Shade deals Ghost-type damage, its type does not alter the amount of damage it inflicts.*/
 	Move[102].setup(102, "Mimic", NORMAL, 0, 100, Special, 0, 10);                  /*Mimic allows the user to select one of the target's Moves to copy, as well as the Move's maximum PP. The user will retain the copied attack in Mimic's place until it faints or is switched out, or the battle ends. Mimic can't copy Struggle.*/
 	Move[103].setup(103, "Screech", NORMAL, 0, 85, Stat, 0, 40);                    /*Screech decreases the target's Defense stat by two stat levels.*/
@@ -2329,7 +2338,7 @@ void initMoveSet()
 		Move[147].setup2(Asleep);
 	Move[148].setup(148, "Flash", NORMAL, 0, 70, Stat, 0, 20);                      /*Flash decreases the target's accuracy stat by one stage.*/
 		Move[148].setup2(Accuracy,2);
-	Move[149].setup(149, "Psywave", PSYCHIC, 0, 80, Special, 0, 15);                /*Psywave inflicts a random amount of damage, varying between 0.5× and 1.5× the user's level. The damage can be calculated using the following formula, where X is a randomly generated number between 0 and 10: (X + 5) × (User's level / 10)*/
+	Move[149].setup(149, "Psywave", PSYCHIC, 0, 80, Special, 0, 15);                /*Psywave inflicts a random amount of damage, varying between 0.5ï¿½ and 1.5ï¿½ the user's level. The damage can be calculated using the following formula, where X is a randomly generated number between 0 and 10: (X + 5) ï¿½ (User's level / 10)*/
 	//SPECIAL SETUP
 	Move[150].setup(150, "Splash", NORMAL, 0, 0, Regular, 0, 40);                   /*Splash has no effect whatsoever.*/
 	Move[151].setup(151, "Acid Armor", POISON, 0, 0, Stat, 0, 40);                  /*Increases the user's Defense by two stages.*/
@@ -2351,7 +2360,7 @@ void initMoveSet()
 	Move[161].setup(161, "Tri Attack", NORMAL, 80, 100, Regular, 0, 10);
 	Move[162].setup(162, "Super Fang", NORMAL, 0, 90, Special, 0, 10);              /*Super Fang does damage equal to 50% of the target's current HP. Although Super Fang does normal damage, its type does not alter the amount of damage it inflicts.*/
 	Move[163].setup(163, "Slash", NORMAL, 70, 100, Regular, 1, 20);                 /*(For the next Move) Using 25% of its maximum HP, the user creates a substitute with 1 HP more than the amount of HP lost by the user. All attacks affect the sub.*/
-	Move[164].setup(164, "Substitute", NORMAL, 0, 0, Special, 0, 10);               /*Struggle deals damage to the opponent and the user receives recoil damage. The user takes recoil damage equal to ½ of the damage the attack did to the opponent. Used when all attacks are out of PP.*/
+	Move[164].setup(164, "Substitute", NORMAL, 0, 0, Special, 0, 10);               /*Struggle deals damage to the opponent and the user receives recoil damage. The user takes recoil damage equal to ï¿½ of the damage the attack did to the opponent. Used when all attacks are out of PP.*/
 	//SPECIAL SETUP
 	Move[165].setup(165, "Struggle", NORMAL, 50, 100, Recoil, 0, 10);
 		Move[165].setup2(50);
@@ -2360,7 +2369,7 @@ void initMoveSet()
 void initPokemon()
 {
 	basicpokemon[0].setup(0, "MISSINGNO", "000", FIRE, NUL, "Glitch", "0'0\"", "0 lbs.", Black, 0, 50, 50, Undiscovered, Undiscovered, 0, "This is a glitch Pokemon. REPORT THIS BUG!", None, 0, 0);
-	basicpokemon[1].setup(1, "BULBASAUR", "001", GRASS, POISON, "Seed", "2'04\"", "15.2 lbs.", Green, 45, 87.5, 12.5, Monster, Grass, 0, "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon.", LevelUp, 16, 2);
+	basicpokemon[1].setup(1, "BULBASAUR", "001", GRASS, POISON, "Seed", "2'04\"", "15.2 lbs.", Green, 45, 87.5, 12.5, Monster, Grass, 0, "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokï¿½mon.", LevelUp, 16, 2);
 	basicpokemon[2].setup(2, "IVYSAUR", "002", GRASS, POISON, "Seed", "3'03\?", "28.7 lbs.", Green, 45, 87.5, 12.5, Monster, Grass, 0, "When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.", LevelUp, 32, 3);
 	basicpokemon[3].setup(3, "VENUSAUR", "003", GRASS, POISON, "Seed", "6'07\"", "220.5 lbs.", Green, 45, 87.5, 12.5, Monster, Grass, 0, "The plant blooms when it is asorbing solar energy. It stays on the move to seek sunlight.", None, 0, 0);
 	basicpokemon[4].setup(4, "CHARMANDER", "004", FIRE, NUL, "Lizard", "2'00\"", "18.7 lbs.", Red, 45, 87.5, 12.5, Monster, Dragon, 0, "Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail.", LevelUp, 16, 5);
@@ -2368,15 +2377,15 @@ void initPokemon()
 	basicpokemon[6].setup(6, "CHARIZARD", "006", FIRE, FLYING, "Flame", "5'07\"", "199.5 lbs.", Red, 45, 87.5, 12.5, Monster, Dragon, 0, "It spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally.", None, 0, 0);
 	basicpokemon[7].setup(7, "SQUIRTLE", "007", WATER, NUL, "Tiny Turtle", "1'08\"", "19.8 lbs.", Blue, 45, 87.5, 12.5, Monster, Water1, 0, "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.", LevelUp, 16, 8);
 	basicpokemon[8].setup(8, "WARTORTLE", "008", WATER, NUL, "Turtle", "3'03\"", "49.6 lbs.", Blue, 45, 87.5, 12.5, Monster, Water1, 0, "Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance.", LevelUp, 36, 9);
-	basicpokemon[9].setup(9, "BLASTOISE", "009", WATER, NUL, "Shellfish", "5'03\"", "188.5 lbs.", Blue, 45, 87.5, 12.5, Monster, Water1, 0, "A brutal Pokémon with pressurized water jets on its shell. They are used for high speed tackles.", None, 0, 0);
+	basicpokemon[9].setup(9, "BLASTOISE", "009", WATER, NUL, "Shellfish", "5'03\"", "188.5 lbs.", Blue, 45, 87.5, 12.5, Monster, Water1, 0, "A brutal Pokï¿½mon with pressurized water jets on its shell. They are used for high speed tackles.", None, 0, 0);
 	basicpokemon[10].setup(10, "CATERPIE", "010", BUG, NUL, "Worm", "1'00\"", "6.4 lbs.", Green, 255, 50, 50, Bug, Undiscovered, 0, "Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls.", LevelUp, 7, 11);
-	basicpokemon[11].setup(11, "METAPOD", "011", BUG, NUL, "Cocoon", "2'04\"", "21.8 lbs.", Green, 120, 50, 50, Bug, Undiscovered, 0, "This Pokémon is vulnerable to attack while its shell is soft, exposing its weak and tender body.", LevelUp, 10, 12);
+	basicpokemon[11].setup(11, "METAPOD", "011", BUG, NUL, "Cocoon", "2'04\"", "21.8 lbs.", Green, 120, 50, 50, Bug, Undiscovered, 0, "This Pokï¿½mon is vulnerable to attack while its shell is soft, exposing its weak and tender body.", LevelUp, 10, 12);
 	basicpokemon[12].setup(12, "BUTTERFREE", "012", BUG, FLYING, "Butterfly", "3'07\"", "70.5 lbs.", White, 45, 50, 50, Bug, Undiscovered, 0, "In battle, it flaps its wings at high speed, releasing highly toxic dust into the air.", None, 0, 0);
 	basicpokemon[13].setup(13, "WEEDLE", "013", BUG, POISON, "Hairy Bug", "1'00\"", "7.1 lbs.", Brown, 255, 50, 50, Bug, Undiscovered, 0, "Often found in forests, eating leaves. It has a sharp, venomous stinger on its head.", LevelUp, 7, 14);
-	basicpokemon[14].setup(14, "KAKUNA", "014", BUG, POISON, "Cocoon", "2'00\"", "22.0 lbs.", Yellow, 120, 50, 50, Bug, Undiscovered, 0, "Almost incapable of moving, this Pokémon can only harden its shell to protect itself from predators.", LevelUp, 10, 15);
+	basicpokemon[14].setup(14, "KAKUNA", "014", BUG, POISON, "Cocoon", "2'00\"", "22.0 lbs.", Yellow, 120, 50, 50, Bug, Undiscovered, 0, "Almost incapable of moving, this Pokï¿½mon can only harden its shell to protect itself from predators.", LevelUp, 10, 15);
 	basicpokemon[15].setup(15, "BEEDRILL", "015", BUG, POISON, "Poison Bee", "3'03\"", "65.0 lbs.", Yellow, 45, 50, 50, Bug, Undiscovered, 0, "Flies at high speed and attacks using its large venomous stingers on its forelegs and tail.", None, 0, 0);
 	basicpokemon[16].setup(16, "PIDGEY", "016", NORMAL, FLYING, "Tiny Bird", "1'00\"", "4.0 lbs.", Brown, 255, 50, 50, Flying, Undiscovered, 0, "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand. A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.", LevelUp, 18, 17);
-	basicpokemon[17].setup(17, "PIDGEOTTO", "017", NORMAL, FLYING, "Bird", "3'07\"", "66.1 lbs.", Brown, 120, 50, 50, Flying, Undiscovered, 0, "Very protective of its sprawling territory, this Pokémon will fiercely peck at any intruder.", LevelUp, 36, 18);
+	basicpokemon[17].setup(17, "PIDGEOTTO", "017", NORMAL, FLYING, "Bird", "3'07\"", "66.1 lbs.", Brown, 120, 50, 50, Flying, Undiscovered, 0, "Very protective of its sprawling territory, this Pokï¿½mon will fiercely peck at any intruder.", LevelUp, 36, 18);
 	basicpokemon[18].setup(18, "PIDGEOT", "018", NORMAL, FLYING, "Bird", "4'11\"", "87.1 lbs.", Brown, 45, 50, 50, Flying, Undiscovered, 0, "When hunting, it skims the surface of water at high speed to pick off unwary prey such as Magikarp.", None, 0, 0);
 	basicpokemon[19].setup(19, "RATTATA", "019", NORMAL, NUL, "Mouse", "1'00\"", "7.7 lbs.", Purple, 255, 50, 50, Field, Undiscovered, 0, "Bites anything when it attacks. Small and very quick, it is a common sight in many places.", LevelUp, 20, 20);
 	basicpokemon[20].setup(20, "RATICATE", "020", NORMAL, NUL, "Mouse", "2'04\"", "40.8 lbs.", Brown, 127, 50, 50, Field, Undiscovered, 0, "It uses its whiskers to maintain its balance and will slow down if they are cut off.", None, 0, 0);
@@ -2384,15 +2393,15 @@ void initPokemon()
 	basicpokemon[22].setup(22, "FEAROW", "022", NORMAL, FLYING, "Beak", "3'11\"", "83.8 lbs.", Brown, 90, 50, 50, Flying, Undiscovered, 0, "With its huge and magnificent wings, it can keep aloft without ever having to land for rest.", None, 0, 0);
 	basicpokemon[23].setup(23, "EKANS", "023", POISON, NUL, "Snake", "6'07\"", "15.2 lbs.", Purple, 255, 50, 50, Field, Dragon, 0, "Moves silently and stealthily. Eats the eggs of birds, such as Pidgey and Spearow, whole.", LevelUp, 22, 24);
 	basicpokemon[24].setup(24, "ARBOK", "024", POISON, NUL, "Cobra", "11'06\"", "143.3 lbs.", Purple, 90, 50, 50, Field, Dragon, 0, "It is rumored that the ferocious warning markings on its belly differ from area to area.", None, 0, 0);
-	basicpokemon[25].setup(25, "PIKACHU", "025", ELECTRIC, NUL, "Mouse", "1'04\"", "13.2 lbs.", Yellow, 190, 50, 50, Field, Fairy, 0, "When several of these Pokémon gather, their electricity could build and cause lightning storms.", Stone, ThunderStone, 26);
+	basicpokemon[25].setup(25, "PIKACHU", "025", ELECTRIC, NUL, "Mouse", "1'04\"", "13.2 lbs.", Yellow, 190, 50, 50, Field, Fairy, 0, "When several of these Pokï¿½mon gather, their electricity could build and cause lightning storms.", Stone, ThunderStone, 26);
 	basicpokemon[26].setup(26, "RAICHU", "026", ELECTRIC, NUL, "Mouse", "2'07\"", "66.1 lbs.", Yellow, 75, 50, 50, Field, Fairy, 0, "Its long tail serves as a ground to protect itself from its own high voltage power. Its long tail serves as a ground to protect itself from its own high voltage power.", None, 0, 0);
 	basicpokemon[27].setup(27, "SANDSHREW", "027", GROUND, NUL, "Mouse", "2'00\"", "26.5 lbs.", Yellow, 255, 50, 50, Field, Undiscovered, 0, "Burrows deep underground in arid locations far from water. It only emerges to hunt for food.", LevelUp, 22, 28);
 	basicpokemon[28].setup(28, "SANDSLASH", "028", GROUND, NUL, "Mouse", "3'03\"", "65.0 lbs.", Yellow, 90, 50, 50, Field, Undiscovered, 0, "Curls up into a spiny ball when threatened. It can roll while curled up to attack or escape.", None, 0, 0);
-	basicpokemon[29].setup(29, "NIDORAN F", "029", POISON, NUL, "Poison Pin", "1'04\"", "15.4 lbs.", Blue, 235, 0, 100, Monster, Field, 0, "Although small, its venomous barbs render this Pokémon dangerous. The female has smaller horns.", LevelUp, 16, 30);
+	basicpokemon[29].setup(29, "NIDORAN F", "029", POISON, NUL, "Poison Pin", "1'04\"", "15.4 lbs.", Blue, 235, 0, 100, Monster, Field, 0, "Although small, its venomous barbs render this Pokï¿½mon dangerous. The female has smaller horns.", LevelUp, 16, 30);
 	basicpokemon[30].setup(30, "NIDORINA", "030", POISON, NUL, "Poison Pin", "2'07\"", "44.1 lbs.", Blue, 120, 0, 100, Undiscovered, Undiscovered, 0, "The female's horn develops slowly. Prefers physical attacks such as clawing and biting.", Stone, MoonStone, 31);
 	basicpokemon[31].setup(31, "NIDOQUEEN", "031", POISON, GROUND, "Drill", "4'03\"", "132.3 lbs.", Blue, 45, 0, 100, Undiscovered, Undiscovered, 0, "Its hard scales provide strong protection. It uses its hefty bulk to execute powerful moves.", None, 0, 0);
 	basicpokemon[32].setup(32, "NIDORAN M", "032", POISON, NUL, "Poison Pin", "1'08\"", "19.8 lbs.", Purple, 235, 100, 0, Monster, Field, 0, "Stiffens its ears to sense danger. The larger its horns, the more powerful its secreted venom.", LevelUp, 16, 33);
-	basicpokemon[33].setup(33, "NIDORINO", "033", POISON, NUL, "Poison Pin", "2'11\"", "43.0 lbs.", Purple, 120, 100, 0, Monster, Field, 0, "An aggressive Pokémon that is quick to attack. The horn on its head secretes a powerful venom.", Stone, MoonStone, 34);
+	basicpokemon[33].setup(33, "NIDORINO", "033", POISON, NUL, "Poison Pin", "2'11\"", "43.0 lbs.", Purple, 120, 100, 0, Monster, Field, 0, "An aggressive Pokï¿½mon that is quick to attack. The horn on its head secretes a powerful venom.", Stone, MoonStone, 34);
 	basicpokemon[34].setup(34, "NIDOKING", "034", POISON, GROUND, "Drill", "4'07\"", "136.7 lbs.", Purple, 45, 100, 0, Monster, Field, 0, "It uses its powerful tail in battle to smash, constrict, then break the prey's bones.", None, 0, 0);
 
 
