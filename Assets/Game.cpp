@@ -29,18 +29,20 @@ extern _battle battle;
 
 Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 :	gfx( hWnd ), audio( hWnd ), kbd( kServer ), mouse( mServer ),
-	GameState(0), MapChecker(0),
+	GameState(0), MapChecker(0), AreaID(0),
 	Checker(0), Checker2(0), Checker3(0),
 	Checker4(0), Checker5(0), Checker6(0), Checker7(0),
 	C0(0), C1(0), C2(0), C3(0), C4(0), C5(0), C6(0), C7(0),
 	introIndex(0), startIndex(0), startIndex2(0),
 	S1(0), S2(0), S3(0),
 	PlayerPosX(384), PlayerPosY(309),
+	BluePosX(200), BluePosY(200),
 	Trainer1PosX(100), Trainer1PosY(100),
 	Trainer2PosX(100), Trainer2PosY(100),
 	Trainer3PosX(100), Trainer3PosY(100),
 	Trainer4PosX(100), Trainer4PosY(100),
 	Red(1), RedType(0),
+	Blue(0), BlueType(1),
 	Trainer1(2), Trainer1Type(0),
 	Trainer2(3), Trainer2Type(0),
 	Trainer3(4), Trainer3Type(0),
@@ -49,7 +51,7 @@ Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 	BattleIndex5(0), BattleIndex6(0), BattleIndex7w(0), BattleIndex8w(0), BattleIndex7l(0), BattleIndex8l(0), BattleIndex9(0),
 	BattleState(0),
 	T1(0),
-	Trainer1Status(0), Trainer2Status(0), Trainer3Status(0), Trainer4Status(0),
+	Trainer1Status(1), Trainer2Status(1), Trainer3Status(1), Trainer4Status(1), BlueStatus(0),
 	Wins(0), Losses(0),
 	endIndex(0)
 {
@@ -99,6 +101,11 @@ Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 	LoadSprite( &RedLeft, "Resources\\Red\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 	LoadSprite( &RedRight, "Resources\\Red\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
 
+	LoadSprite( &BlueNormal, "Resources\\Blue\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &BlueUp, "Resources\\Blue\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &BlueLeft, "Resources\\Blue\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &BlueRight, "Resources\\Blue\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+
 	LoadSprite( &Trainer1Normal, "Resources\\Trainer1\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 	LoadSprite( &Trainer1Up, "Resources\\Trainer1\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
 	LoadSprite( &Trainer1Left, "Resources\\Trainer1\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
@@ -117,9 +124,7 @@ Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 	LoadSprite( &Trainer4Normal, "Resources\\Trainer4\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 	LoadSprite( &Trainer4Up, "Resources\\Trainer4\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
 	LoadSprite( &Trainer4Left, "Resources\\Trainer4\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer4Right, "Resources\\Trainer4\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-
-	LoadSprite( &BlueNormal, "Resources\\Blue\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+	LoadSprite( &Trainer4Right, "Resources\\Trainer4\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
 
 	LoadSprite( &Battle, "Resources\\Battle\\1.bmp", 800, 600, D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprite( &Moves, "Resources\\Battle\\Moves.bmp", 800, 160, D3DCOLOR_XRGB(0, 0, 0));
@@ -145,7 +150,18 @@ void Game::Go()
 
 void Game::DrawEntity(int X, int Y, int Character, int Type)
 {
-	if(Character == 1)
+	if(Character == 0) //Blue
+	{
+		if(Type == 0)
+			gfx.DrawSprite(X, Y, &BlueNormal);
+		if(Type == 1)
+			gfx.DrawSprite(X, Y, &BlueUp);
+		if(Type == 2)
+			gfx.DrawSprite(X, Y, &BlueLeft);
+		if(Type == 3)
+			gfx.DrawSprite(X, Y, &BlueRight);
+	}
+	if(Character == 1) //Red
 	{
 		if(Type == 0)
 			gfx.DrawSprite(X, Y, &RedNormal);
@@ -901,18 +917,56 @@ void Game::State1()
 	DrawEntity(Trainer4PosX, Trainer4PosY, Trainer4, Trainer4Type); // 
 	DrawEntity(PlayerPosX, PlayerPosY, Red, RedType);               //
 
-	if(PlayerPosY < 92) {    
-		PlayerPosY = 92;     
+	if((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1)) {
+		MapChecker = 1;
+		DrawEntity(BluePosX, BluePosY, Blue, BlueType); 
 	}
-	if(PlayerPosY > 492) {
-		PlayerPosY = 492;
+
+	if(!((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1))) {
+		if(PlayerPosY < 92) {    
+			PlayerPosY = 92;     
+		}
+		if(PlayerPosY > 492) {
+			PlayerPosY = 492;
+		}
+		if(PlayerPosX < 26) {
+			PlayerPosX = 26;
+		}
+		if(PlayerPosX > 742) {
+			PlayerPosX = 742;
+		}
 	}
-	if(PlayerPosX < 26) {
-		PlayerPosX = 26;
+	else if((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1)) {
+		if(AreaID == 0) {
+			if(PlayerPosY < 92) {    
+				PlayerPosY = 92;     
+			}
+			if(PlayerPosY > 492) {
+				AreaID = 1;
+			}
+			if(PlayerPosX < 26) {
+				PlayerPosX = 26;
+			}
+			if(PlayerPosX > 742) {
+				PlayerPosX = 742;
+			}
+		}
+		if(AreaID == 1) {
+			if(PlayerPosY < 492) {    
+				AreaID = 0;     
+			}
+			if(PlayerPosY > 542) {
+				PlayerPosY = 542;
+			}
+			if(PlayerPosX < 326) {
+				PlayerPosX = 326;
+			}
+			if(PlayerPosX > 442) {
+				PlayerPosX = 442;
+			}
+		}
 	}
-	if(PlayerPosX > 742) {
-		PlayerPosX = 742;
-	}
+		
 	
 	if(kbd.KeyIsPressed(VK_UP)) {
 			PlayerPosY -= 2;
@@ -983,7 +1037,7 @@ void Game::State1()
 			else
 				gfx.DrawString("You have already defeated me!", 8, 570, &fixedSys, D3DCOLOR_XRGB(248, 248, 248));
 
-	if((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1))
+	if((Trainer1Status==1)&&(Trainer2Status==1)&&(Trainer3Status==1)&&(Trainer4Status==1)&&(BlueStatus==1))
 		GameState = 5;
 }
 

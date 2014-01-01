@@ -121,6 +121,12 @@ private:
 	Sprite RedLeft;
 	Sprite RedRight;
 
+	Sprite BlueNormal;
+	Sprite BlueUp;
+	Sprite BlueDown;
+	Sprite BlueLeft;
+	Sprite BlueRight;
+
 	Sprite Trainer1Normal;
 	Sprite Trainer1Up;
 	Sprite Trainer1Down;
@@ -145,8 +151,6 @@ private:
 	Sprite Trainer4Left;
 	Sprite Trainer4Right;
 
-	Sprite BlueNormal;
-
 	Sprite Battle;
 	Sprite Moves;
 	Sprite Selector;
@@ -163,11 +167,17 @@ private:
 
 	int GameState;
 	int MapChecker;
+	int AreaID;
 
 	int PlayerPosX;
 	int PlayerPosY;
 	int Red;
 	int RedType;
+
+	int BluePosX;
+	int BluePosY;
+	int Blue;
+	int BlueType;
 
 	int Checker;
 	int Checker2;
@@ -258,6 +268,7 @@ private:
 	int Trainer2Status;
 	int Trainer3Status;
 	int Trainer4Status;
+	int BlueStatus;
 
 	int TrainerID;
 

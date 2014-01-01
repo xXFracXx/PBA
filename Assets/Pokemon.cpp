@@ -2697,29 +2697,4 @@ void initPokemon()
 }
 
 int main()
-{
-
-	/*srand(time(NULL));
-
-	int i,wins=0,losses=0;
-
-	for (i=0; i<3; i++)
-	{
-		if (wins<2 && losses<2)
-		{
-			battle.beginbattle();
-			system("pause");
-		}
-	}
-
-	if (wins>losses)
-	{
-		//RED WINS!
-	}
-	else
-	{
-		//RED LOSES!
-	}*/
-
-	//gfx.DrawSprite(100, 100, &BlueNormal);
-}
+{}
