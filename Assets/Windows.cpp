@@ -108,7 +108,7 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR,INT )
 {
 	WNDCLASSEX wc = { sizeof( WNDCLASSEX ),CS_CLASSDC,MsgProc,0,0,
                       GetModuleHandle( NULL ),NULL,NULL,NULL,NULL,
-                      L"Chili DirectX Framework Window",NULL };
+                      L"Pokémon Battle Arena",NULL };
     wc.hIconSm = (HICON)LoadImage( hInst,MAKEINTRESOURCE( IDI_APPICON16 ),IMAGE_ICON,16,16,0 );
 	wc.hIcon   = (HICON)LoadImage( hInst,MAKEINTRESOURCE( IDI_APPICON32 ),IMAGE_ICON,32,32,0 );
 	wc.hCursor = LoadCursor( NULL,IDC_ARROW );
@@ -120,7 +120,7 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR,INT )
 	wr.top = 150;
 	wr.bottom = 600 + wr.top;
 	AdjustWindowRect( &wr,WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,FALSE );
-    HWND hWnd = CreateWindowW( L"Chili DirectX Framework Window",L"Chili DirectX Framework",
+    HWND hWnd = CreateWindowW( L"Pokémon Battle Arena",L"Pokémon Battle Arena",
                               WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,wr.left,wr.top,wr.right-wr.left,wr.bottom-wr.top,
                               NULL,NULL,wc.hInstance,NULL );
 
@@ -144,6 +144,6 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR,INT )
 		}
     }
 
-    UnregisterClass( L"Chili DirectX Framework Window",wc.hInstance );
+    UnregisterClass( L"Pokémon Battle Arena Window",wc.hInstance );
     return 0;
 }
