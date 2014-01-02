@@ -84,19 +84,19 @@ Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 	LoadSprite( &Intro12, "Resources\\Intro\\12.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 	LoadSprite( &Intro13, "Resources\\Intro\\13.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 
-	LoadSprite( &Menu1a, "Resources\\Menu1\\a.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu1b, "Resources\\Menu1\\b.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu1c, "Resources\\Menu1\\c.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu1d, "Resources\\Menu1\\d.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu1e, "Resources\\Menu1\\e.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu1a, "Resources\\Menus\\1\\a.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu1b, "Resources\\Menus\\1\\b.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu1c, "Resources\\Menus\\1\\c.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu1d, "Resources\\Menus\\1\\d.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu1e, "Resources\\Menus\\1\\e.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 
-	LoadSprite( &Menu2a, "Resources\\Menu2\\a.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu2b, "Resources\\Menu2\\b.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu2c, "Resources\\Menu2\\c.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu2a, "Resources\\Menus\\2\\a.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu2b, "Resources\\Menus\\2\\b.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu2c, "Resources\\Menus\\2\\c.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 
-	LoadSprite( &Menu3a, "Resources\\Menu3\\a.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu3b, "Resources\\Menu3\\b.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
-	LoadSprite( &Menu3c, "Resources\\Menu3\\c.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu3a, "Resources\\Menus\\3\\a.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu3b, "Resources\\Menus\\3\\b.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
+	LoadSprite( &Menu3c, "Resources\\Menus\\3\\c.bmp", 800, 600, D3DCOLOR_XRGB(0,0,0));
 
 	LoadSprite( &RedNormal, "Resources\\Red\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 	LoadSprite( &RedUp, "Resources\\Red\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
@@ -108,25 +108,25 @@ Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 	LoadSprite( &BlueLeft, "Resources\\Blue\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 	LoadSprite( &BlueRight, "Resources\\Blue\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
 
-	LoadSprite( &Trainer1Normal, "Resources\\Trainer1\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer1Up, "Resources\\Trainer1\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
-	LoadSprite( &Trainer1Left, "Resources\\Trainer1\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer1Right, "Resources\\Trainer1\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer1Normal, "Resources\\Trainers\\1\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer1Up, "Resources\\Trainers\\1\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+	LoadSprite( &Trainer1Left, "Resources\\Trainers\\1\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer1Right, "Resources\\Trainers\\1\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 
-	LoadSprite( &Trainer2Normal, "Resources\\Trainer2\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer2Up, "Resources\\Trainer2\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
-	LoadSprite( &Trainer2Left, "Resources\\Trainer2\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer2Right, "Resources\\Trainer2\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer2Normal, "Resources\\Trainers\\2\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer2Up, "Resources\\Trainers\\2\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+	LoadSprite( &Trainer2Left, "Resources\\Trainers\\2\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer2Right, "Resources\\Trainers\\2\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 
-	LoadSprite( &Trainer3Normal, "Resources\\Trainer3\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer3Up, "Resources\\Trainer3\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
-	LoadSprite( &Trainer3Left, "Resources\\Trainer3\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer3Right, "Resources\\Trainer3\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer3Normal, "Resources\\Trainers\\3\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer3Up, "Resources\\Trainers\\3\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+	LoadSprite( &Trainer3Left, "Resources\\Trainers\\3\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer3Right, "Resources\\Trainers\\3\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
 
-	LoadSprite( &Trainer4Normal, "Resources\\Trainer4\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer4Up, "Resources\\Trainer4\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
-	LoadSprite( &Trainer4Left, "Resources\\Trainer4\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
-	LoadSprite( &Trainer4Right, "Resources\\Trainer4\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+	LoadSprite( &Trainer4Normal, "Resources\\Trainers\\4\\Normal.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer4Up, "Resources\\Trainers\\4\\Up.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
+	LoadSprite( &Trainer4Left, "Resources\\Trainers\\4\\Left.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255)); 
+	LoadSprite( &Trainer4Right, "Resources\\Trainers\\4\\Right.bmp", 32, 32, D3DCOLOR_XRGB(255, 255, 255));
 
 	LoadSprite( &Battle, "Resources\\Battle\\1.bmp", 800, 600, D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprite( &Moves, "Resources\\Battle\\Moves.bmp", 800, 160, D3DCOLOR_XRGB(0, 0, 0));
