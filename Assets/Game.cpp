@@ -286,6 +286,7 @@ void Game::LoadSaveFile()
 	SaveFile >> Trainer2Status;
 	SaveFile >> Trainer3Status;
 	SaveFile >> Trainer4Status;
+	SaveFile >> BlueStatus;
 }
 
 void Game::SaveToSaveFile()
@@ -296,7 +297,7 @@ void Game::SaveToSaveFile()
 	SaveFile << Trainer3PosX << "\n" << Trainer3PosY << "\n";
 	SaveFile << Trainer4PosX << "\n" << Trainer4PosY << "\n";
 	SaveFile << PlayerPosX << "\n" << PlayerPosY << "\n";
-	SaveFile << Trainer1Status << "\n" << Trainer2Status << "\n" << Trainer3Status << "\n" << Trainer4Status << "\n";
+	SaveFile << Trainer1Status << "\n" << Trainer2Status << "\n" << Trainer3Status << "\n" << Trainer4Status << "\n" << BlueStatus << "\n";
 }
 
 void Game::DelSaveFile()
@@ -867,7 +868,7 @@ void Game::State0()
 			else
 				DrawMenu(0, 0, 1, 1);
 		}
-		gfx.DrawString("Release Candidate v1.3", 8, 570, &fixedSys, D3DCOLOR_XRGB(48, 48, 48));
+		gfx.DrawString("v1.0", 8, 570, &fixedSys, D3DCOLOR_XRGB(48, 48, 48));
 	}
 }
 
