@@ -418,7 +418,7 @@ int _pokemon::hppercentcalc()
 	return x;
 }
 
-void _pokemon::setup(int a)
+void _pokemon::setup(int a, int lvl)
 {
     no = basicpokemon[a].no;
     strcpy( name, basicpokemon[a].name );
@@ -443,8 +443,21 @@ void _pokemon::setup(int a)
     basespdef = basicpokemon[a].basedef;
     basespd = basicpokemon[a].basespd;
 
-    level=50;
-    hp=basehp*3;
+    level=lvl;
+	if((level < 50)&&(level > 44)) {
+		basehpf=basehp*2.5;
+		hp = basehpf;
+	}
+	else if(level == 50) {
+		hp=basehp*3;
+	}
+	else if((level < 56)&&(level > 50)) {
+		basehpf=basehp*3.5;
+		hp = basehpf;
+	}
+	else {
+		hp=basehp*3;
+	}
     curhp=hp;
     attack=baseatt*2;
     defense=basedef*2;

@@ -126,6 +126,7 @@ public:
 	int eggcycle;                                                      //No. of egg cycles to hatch
 	string dexinfo;                                                    //Pokedex info
 	int basehp;                                                        //Base HP
+	float basehpf;
 	int baseatt;                                                       //Base Attack Stat
 	int basedef;                                                       //Base Defense Stat
 	int basespatt;                                                     //Base Special Attack Stat
@@ -161,7 +162,7 @@ public:
                                                       //Checks if the Pokemon was originally the trainer's, or was traded in
 	_pokemon();
 	int hppercentcalc();
-	void setup(int a);
+	void setup(int a, int lvl);
 	void createmoveset();
 };
 

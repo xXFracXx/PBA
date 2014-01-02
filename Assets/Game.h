@@ -51,6 +51,7 @@ private:
 	void Fight();
 	void xAttackd(int xMove);
 	void yAttackd();
+	void BluePkmnSelector();
 	void resetBattleInits();
 	void Win();
 	void Lose();
@@ -82,6 +83,7 @@ private:
 	Sprite Next;
 	Sprite NextRed;
 	Sprite Select;
+	Sprite Cross;
 
 	Sprite Start1;
 	Sprite Start2;
@@ -230,6 +232,7 @@ private:
 	int BattleIndex8w;
 	int BattleIndex8l;
 	int BattleIndex9;
+	int BlueIndex;
 
 	int level;
 	int species;
