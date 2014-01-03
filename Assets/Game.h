@@ -36,9 +36,6 @@ public:
 	void Go();
 private:
 	void ComposeFrame();
-	/********************************/
-	/*  User Functions              */
-
 	void Initialize(int &X, int &Y);
 	void DrawEntity(int X, int Y, int Character, int Type);
 	void DrawMenu(int X, int Y, int Menu, int Type);
@@ -65,15 +62,11 @@ private:
 	void State3();
 	void State4();
 	void State5();
-
-	/********************************/
 private:
 	D3DGraphics gfx;
 	KeyboardClient kbd;
 	MouseClient mouse;
 	DSound audio;
-	/********************************/
-	/*  User Variables  */
 
 	Font fixedSys;
 
@@ -281,5 +274,4 @@ private:
 	char tLosses[3];
 
 	int endIndex;
-	/********************************/
 };

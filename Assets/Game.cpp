@@ -1228,10 +1228,6 @@ void Game::State4()
 		species = rand()%34+1;
 		x.setup(species, level);
 
-		level = rand()%10+46;
-		species = rand()%34+1;
-		y.setup(species, level);
-
 		if(TrainerID == 0)
 		{
 			level = rand()%5+51;
